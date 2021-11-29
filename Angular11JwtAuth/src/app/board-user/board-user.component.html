@@ -1,0 +1,32 @@
+<h3>Bienvenue dans l'outil de création de playlist !</h3>
+
+<div style="width: 400px; margin: auto;">
+    <div class="submit-form">
+        <div class="form-group">
+          <label for="title">Nom de la playlist</label>
+          <input
+            type="text"
+            class="form-control"
+            id="title"
+            required
+            [(ngModel)]="playlist.name"
+            name="name"
+          />
+        </div>
+  
+        <button (click)="onClick()" class="btn btn-success">Créer ma playlist</button>
+    </div>
+</div>
+
+<button (click)="showPlaylists()" class="btn btn-secondary btn-lg">Afficher mes playlists</button>
+
+  <div class="card-deck">
+    <div class="card" *ngFor="let playlist of MyPlaylists">
+      <img src="https://m.media-amazon.com/images/I/819O2Sdm1GL._SS500_.jpg" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">{{ playlist.name}}</h5>
+        <p class="card-text">Votre playlist sur-mesure.</p>
+        <p class="card-text"><small class="text-muted">Last updated {{ playlist.updated}}</small></p>
+      </div>
+    </div>
+</div>

@@ -1,0 +1,63 @@
+LES TUTOS : 
+https://www.bezkoder.com/angular-10-mongodb-node-express/
+https://www.bezkoder.com/node-express-mongodb-crud-rest-api/
+https://www.bezkoder.com/node-js-mongodb-auth-jwt/
+
+cd "Desktop\TRAVAIL\Isma\POLYTECH\INFO 5A\PROJETURBA"
+
+LES COMMANDES :
+lancer le backend : node server.js
+lancer le frontend : ng serve --port 8081
+
+POSTMAN : 
+user : {
+    "username": "tester",
+    "email": "salu1",
+    "password": "123",
+    "roles": ["admin","annonceur"]
+}
+
+{
+    "name": "playlist1"
+}
+
+http://localhost:8080/api/auth/signin
+
+BD cloud : 
+emailenplus3@gmail.com via google 
+user : isma mdp: polydebrouillard123
+user : ali mdp: polydebrouillard123
+mongodb+srv://isma:polydebrouillard123@polydebrouillardcluster.mdsqe.mongodb.net/isma_db?retryWrites=true&w=majority
+
+----------- Améliorations ----------
+
+- Chaque utilisateur à 0 ou n playlists.
+- Dans chaque playlist il y a 0 ou n vidéos
+- Playlist : 
+	- name : String
+	- Liste de vidéos : Array d'ObjectId
+	- Utilisateur qui l'a crée : ObjectId
+	- Date création de la playlist : Date
+
+- Vidéo :
+	- URL : String
+	- Titre : String
+	- Description : String
+	- Miniature : String 
+	- Type de plateforme : String	 // Ex: Youtube, Viméo...
+
+- Annonce : 
+	- Nom de campagne : String
+	- Objectif : String
+	- Budget : Number
+	- Zone Géo : String
+	- Categorie ciblage : String
+	- Photo d'annonce : String
+	- Titre d'annonce : String
+	- Description d'annonce : String
+	- URL d'annonce : String   // facultatif
+
+- Users : 
+	- 
+
+	
