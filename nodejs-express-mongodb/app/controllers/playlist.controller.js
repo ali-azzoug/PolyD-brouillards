@@ -58,8 +58,8 @@ exports.addVideo = (req, res) => {
       message: "Data to update can not be empty!"
     });
   }
-  const myObject = {videoId:"001",titre:"best video",description:"test"};
-  const id = req.body.id
+  const myObject = {videoId: req.body.videoId, titre: req.body.titre, description: req.body.description};
+  const id = req.body.idPlaylist
 
   Playlist.findByIdAndUpdate(id, {"$push" :{"video_list" : myObject }})
     .then(data => {
@@ -78,7 +78,7 @@ exports.addVideo = (req, res) => {
   // GET 1 playlist
   exports.getOnePlaylist = (req, res) => {
   
-    const id = req.body.id;
+    const id = req.body.idPlaylist;
   
     Playlist.findById(id)
       .then(data => {
@@ -97,7 +97,7 @@ exports.addVideo = (req, res) => {
    // Update a playlist by adding a video in the request
    exports.getAllVideoFromPlaylist = (req, res) => {
   
-    const id = req.body.id;
+    const id = req.body.idPlaylist;
 
     Playlist.findById(id)
       .then(data => {
@@ -111,4 +111,27 @@ exports.addVideo = (req, res) => {
           .send({ message: "Error retrieving playlist with id=" + id });
       });
     
+  };
+
+  exports.deleteVideo = (req, res) => {
+    const id = req.body.idPlaylist;
+    const videoId = req.body.videoId;
+
+    Playlist.findByIdAndUpdate(id, {"$pull" : {"video_list" : {"videoId": videoId} }})
+      .then(data => {
+        if (!data) {
+          res.status(404).send({
+            message: `Cannot delete video with id=${id}. Maybe video was not found!`
+          });
+        } else {
+          res.send({
+            message: "Video was deleted successfully!"
+          });
+        }
+      })
+      .catch(err => {
+        res.status(500).send({
+          message: "Could not delete Video with id=" + id
+        });
+      });
   };

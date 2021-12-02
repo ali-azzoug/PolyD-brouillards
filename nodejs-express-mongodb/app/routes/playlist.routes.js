@@ -10,11 +10,13 @@ module.exports = app => {
     router.post("/findPlaylists", playlists.FindPlaylistsByUsername);
 
   // Retrieve all playlists by username
-    router.post("/addVideo/", playlists.addVideo);
+    router.post("/addVideo", playlists.addVideo);
 
     router.post("/getOnePlaylist/", playlists.getOnePlaylist);
 
     router.post("/getAllVideoFromPlaylist/", playlists.getAllVideoFromPlaylist);
+
+    router.post("/removeVideo", playlists.deleteVideo);
 
     app.use('/api/playlists', router);
   };
