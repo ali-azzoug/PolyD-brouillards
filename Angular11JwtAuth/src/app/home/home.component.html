@@ -1,6 +1,74 @@
-<div class="container">
-  <header class="jumbotron">
-    <p>{{ content }}</p>
-    <p> Rien à voir ici mon ami, connecte toi pour avoir plus de fonctionnalités</p>
-  </header>
+<p></p>
+
+<div class="row">
+
+    <div class="col-8">
+
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Rechercher une vidéo" (keydown.enter)="searchVideos()" [(ngModel)]="VideoQuery">
+            <button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="searchVideos()">Recherche</button>
+        </div>
+
+        
+        <iframe *ngIf="this.currentVideo" width="711" height="400" [src]="urlSafe" title="YouTube video player" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+        <h3 class="bold text-truncate p-1" *ngIf="this.currentVideoTitle">{{this.currentVideoTitle}}</h3>
+
+        <div *ngIf="listeVideos" class="row">
+            <div  class="col-4" *ngFor="let item of youtubeData?.items">
+                <div class="miniature round card m-1" (click)="watchVideo(item)">
+                    <img class="col-12 m-0 p-2" src="{{getThumbnails(item.id.videoId)}}" >
+                    <p class="col-12 p-1 text-truncate font-weight-bold">{{item.snippet.title}}</p>
+                </div>
+
+                <div class="row">
+                    <div *ngIf="isLoggedIn" class="text-center ml-5 mt-1 md-2"><button (click)="addToPlaylist(item.id.videoId, item.snippet.title, item.snippet.description)" type="button" class="btn btn-sm btn-outline-primary rounded">+ Add to playlist</button></div>
+                </div>
+
+
+
+            </div>
+        </div>
+
+    </div> 
+    <div class="col-4">
+        <!-- pub-->
+        <a href="https://adidas.com" style="text-decoration: none; color: black;">
+            <img src="https://iletaitunepub.fr/wp/wp-content/uploads/2016/02/2012-3.jpg" width="100%">
+            <h5 class="px-1 col-12 text-truncate">Nouvelle Collection chaussure adidas nouvelle fashion</h5>
+        </a>
+        <p class="text-primary px-2">annonce</p>
+        <br/>
+
+        <div *ngIf="isLoggedIn" class="playlist">
+          <h4> Ma playlist Actuelle</h4>
+          <div class="grid">
+              <div *ngFor="let video of currentPlaylist" class="row m-1">
+                  <div class="miniature round row col-11 border border-light" (click)="watchPlaylist(video)">
+                      <div class="col-5">
+                          <img width="100%" src="{{getThumbnails(video.videoId)}}" alt="" width="100%">
+                      </div>
+                      <div class="col-7">
+                          <div class="row">
+                              <p class="col-12 text-truncate p-0 m-0 text-dark" style="font-weight: bold; font-size: 12px !important;">{{video.title}}</p>
+                          </div>
+                          <div class="row">
+                              <p class="text-truncate p-0" style="font-size: 12px !important;">{{video.description}}</p>
+                              
+                          </div>
+                      </div>
+                  </div>
+  
+                  <div class="col-1 mt-3"><button (click)="removeFromPlaylist(video)" type="button" class="btn btn-sm btn-outline-danger rounded-circle">X</button></div>
+              </div>
+              
+          </div>
+        </div>
+        <div *ngIf="!isLoggedIn">
+          <h6> Connectez-vous pour créer des playlist</h6>
+          <a class="btn btn-primary rounded btn-lg btn-block" href="/login">Connexion</a>
+          <a class="btn btn-success rounded btn-lg btn-block" href="/register">Inscription</a>
+
+        </div>
+
+    </div>
 </div>

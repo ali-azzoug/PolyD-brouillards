@@ -3,7 +3,11 @@ module.exports = mongoose => {
       {
         name: String,
         created_by: String,
-        video_list: [mongoose.Schema.Types.ObjectId],
+        video_list: [{
+          videoId : String,
+          titre : String,
+          description : String
+          }],
         updated: { type: Date, default: Date.now },
       }
     );
