@@ -19,4 +19,30 @@ export class PlaylistService {
     return this.http.post(baseUrl + "/findPlaylists", data);
   }
 
+  // Ajoute une vidéo a la playlist actuelle 
+  // Il faut donner en entrée: 
+  // - idPlaylist : un id de playlist
+  // - videoId : l'id de la video a ajouter
+  // - titre : le titre de la video
+  // - description : la description de la video
+  addVideoToPlaylist(data: any): Observable<any> {
+    return this.http.post(baseUrl + "/addVideo", data);
+  }
+
+
+  // Supprime une vidéo de la playlist actuelle 
+  // Il faut donner en entrée: 
+  // - idPlaylist : un id de playlist
+  // - videoId : l'id de la video a supprimer
+  removeVideo(data: any): Observable<any> {
+    return this.http.post(baseUrl + "/removeVideo", data);
+  }
+
+  // Récuperer toutes les vidéos d'une playlist
+  // Il faut donner en entrée: 
+  // - idPlaylist : un id de playlist
+  getAllVideo(data: any): Observable<any> {
+    return this.http.post(baseUrl + "/getAllVideoFromPlaylist", data);
+  }
+  
 }
