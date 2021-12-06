@@ -1,5 +1,184 @@
 <div class="container">
-  <header class="jumbotron">
-    <p>{{ content }}</p>
-  </header>
+  <h5 *ngIf="step > 0 ">Etape {{step}} sur 4</h5>
+  <br/>
+
+  <!-- step 0 -->
+  <div *ngIf="step === 0">
+    <div class="card mx-auto col-6 m-0 p-0 ">
+      <div class="card-header mx-0 px-0">
+        <h5 class="text-center">Compagne publicitaire sur Vidéa</h5>
+      </div>
+      <img class="col-8 mx-auto p-3" src="../../assets/ads.png">
+      <div class="car-body p-3">
+        <h6>Créez une nouvelle annonce </h6>
+        <p>Créer une publicité sur vidéa pour augmentez votre visibilité ou attirez de nouveaux visiteurs sur votre site web !
+        </p>
+        <button type="button" class="btn btn-primary" (click)="next(1)">Commencer</button>
+
+      </div>
+    </div>
+    <br/><br/>
+  </div>
+
+
+  <!-- step 1 -->
+  <div *ngIf="step === 1">
+    <h2 class="text-center">Choisissez votre objectif de compagne</h2>
+    <br/>
+    <div class="row ">
+      <div class="card col-5 p-0 m-3">
+        <div class="card-header ">
+          <div class="row">
+            <div class="col-3"></div>
+            <div class="col-6"> <img class="col-12" src="../../assets/mouse.png">   </div>
+            <div class="col-3"></div>
+          </div>
+  
+          <h3 class="text-center"> Visites sur site web </h3>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">Nom de compagne</h5>
+          <input type="text" class="form-control" [(ngModel)]="nomCompagne" placeholder="exemple: compagne d'hiver, publicité vetement, etc ..." >
+          <br/>
+          <h5 class="card-title">Site web</h5>
+          <input type="text" class="form-control" [(ngModel)]="urlWebsite" placeholder="exemple https://nom-page-destination.com">
+          <br/>
+          <button type="button" class="btn btn-primary" (click)="next(2,'site web')">Suivant</button>
+        </div>
+      </div>
+  
+      <div class="card col-5 p-0 m-3">
+        <div class="card-header ">
+          <div class="row">
+            <div class="col-3"></div>
+            <div class="col-6"> <img class="col-12" src="../../assets/stars.png">   </div>
+            <div class="col-3"></div>
+          </div>        
+          <h3 class="text-center">Notoriété de la marque</h3>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">Nom de compagne</h5>
+          <input type="text" class="form-control" [(ngModel)]="nomCompagne" placeholder="exemple: compagne d'hiver, publicité vetement, etc ..." >
+          <br/>
+          <button type="button" class="btn btn-primary" (click)="next(2,'notoriété')">Suivant</button>
+        </div>
+      </div>
+    </div>   <br/>
+  </div>
+
+  <!-- step 2 -->
+  <div *ngIf="step === 2">
+    <div class="card">
+      <div class="card-header">
+        Zone géographique
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">Choisissez une zone géographique de ciblage</h5>
+        <div class="form-check">
+          <input type="radio" class="form-check-input" [(ngModel)]="zone" value="Monde" checked>
+          <label class="form-check-label" for="materialUnchecked">Monde entier</label>
+        </div>
+      <br/>
+        <div class="form-check">
+          <input type="radio" class="form-check-input" [(ngModel)]="zone" [value]="targetCountry">
+          <label class="form-check-label" for="materialChecked">
+            <select class="custom-select" [(ngModel)]="targetCountry">
+              <option *ngFor="let country of listCountries" value={{country}}>{{country}}</option>
+            </select>
+          </label>
+        </div>    
+      </div>
+    </div>    <br/>
+  
+    
+    <div class="card">
+      <div class="card-header">
+        Budget
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">Quel est votre budget maximum journalier</h5>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">€</span>
+          </div>
+          <input type="number" min="1" step="1" [(ngModel)]="budget" class="form-control col-4" aria-label="Amount (to the nearest dollar)">
+          <div class="input-group-append">
+            <span class="input-group-text">.00</span>
+          </div>
+        </div>    
+      </div>
+    </div>  <br/>
+  
+    <div class="card">
+      <div class="card-header">
+        Catégorie de ciblage
+      </div>
+  
+      <div class="card-body">
+        <h5 class="card-title">Choisissez une catégorie de ciblage spécifique</h5>
+        <select class="custom-select col-4" [(ngModel)]="targetCategory">
+          <option *ngFor="let cat of listCategories" value={{cat}}>{{cat}}</option>
+        </select>  
+      </div>
+    </div>
+    <br/>
+  
+    <div class="d-flex m-3">
+      <div class="p-2 m-3">
+        <button type="button" class="btn btn-primary" (click)="back()">Retour</button>
+      </div>
+      <div class="ml-auto p-2 m-3">
+        <button type="button" class="btn btn-primary" (click)="next(3)">Suivant</button>
+      </div>
+    </div>
+    
+    <br/><br/><br/><br/><br/>
+  </div>
+
+  <!-- step 3 -->
+  <div *ngIf="step === 3">
+    <div class="card">
+      <div class="card-header">
+        Annonce
+      </div>
+  
+      <div class="card-body">
+        <h5 class="card-title">Choisissez l'image de l'annonce</h5>
+        <input type="text" [(ngModel)]="imageAnnonce" class="form-control col-4" placeholder="ex : https://mon-image.png">
+        <br/>
+  
+        <h5 class="card-title">Donnez un titre à l'annonce</h5>
+        <input type="text" [(ngModel)]="titreAnnonce" class="form-control col-4" placeholder="ex: Mon super produit">
+        <br/>
+  
+        <h5 class="card-title">Donnez une description à l'annonce</h5>
+        <textarea class="form-control col-4" [(ngModel)]="descriptionAnnonce"  placeholder="ex : super produit, disponible maintenant"></textarea>
+        <br/>
+  
+      </div>
+    </div>
+  
+  
+    <div class="d-flex m-3">
+      <div class="p-2 m-3">
+        <button type="button" class="btn btn-primary" (click)="back()">Retour</button>
+      </div>
+      <div class="ml-auto p-2 m-3">
+        <button type="button" class="btn btn-primary" (click)="next(4)">Suivant</button>
+      </div>
+    </div>
+    
+    <br/><br/><br/><br/><br/>
+  </div>
+
+  <!-- step 4 -->
+  <div *ngIf="step === 4">
+    <h2> Félicitation votre annonce a été créée</h2>
+    <h5> Créer une nouvelle annonce</h5>
+    <button type="button" class="btn btn-primary" (click)="next(1)">Nouvelle annonce</button>
+
+  </div>
+
+
+ 
 </div>
