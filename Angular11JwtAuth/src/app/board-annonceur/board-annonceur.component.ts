@@ -14,7 +14,7 @@ export class BoardAnnonceurComponent implements OnInit {
   step = 0;
 
   objectif = "";
-  nomCompagne = "";
+  nomCampagne = "";
   urlWebsite = "";
 
   zone = "Monde";
@@ -43,7 +43,7 @@ export class BoardAnnonceurComponent implements OnInit {
 
   next(nextStep: number, data?: any) {
     if (nextStep === 2) {
-      if(this.nomCompagne === "") { alert('Merci de choisir un nom de compagne ')}
+      if(this.nomCampagne === "") { alert('Merci de choisir un nom de campagne ')}
       else if(data === "site web" && this.urlWebsite ==="") {alert ('Merci de renseigner le site web de destination')} 
       else {this.step = nextStep; this.objectif = data;}
     }
@@ -64,7 +64,7 @@ export class BoardAnnonceurComponent implements OnInit {
 
   publierAnnonce() {
     const annonce = {
-      nom_campagne: this.nomCompagne,
+      nom_campagne: this.nomCampagne,
       createdBy: 'userId',
       objectif: this.objectif,
       budget: this.budget,
@@ -82,7 +82,7 @@ export class BoardAnnonceurComponent implements OnInit {
   }
 
   resetData() {
-    this.nomCompagne = "";
+    this.nomCampagne = "";
     this.urlWebsite = "";
     this.zone = "Monde";
     this.targetCategory = 'toutes les catégories';

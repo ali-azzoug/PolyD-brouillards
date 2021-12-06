@@ -6,7 +6,7 @@
   <div *ngIf="step === 0">
     <div class="card mx-auto col-6 m-0 p-0 ">
       <div class="card-header mx-0 px-0">
-        <h5 class="text-center">Compagne publicitaire sur Vidéa</h5>
+        <h5 class="text-center">Campagne publicitaire sur Vidéa</h5>
       </div>
       <img class="col-8 mx-auto p-3" src="../../assets/ads.png">
       <div class="car-body p-3">
@@ -23,7 +23,7 @@
 
   <!-- step 1 -->
   <div *ngIf="step === 1">
-    <h2 class="text-center">Choisissez votre objectif de compagne</h2>
+    <h2 class="text-center">Choisissez votre objectif de campagne</h2>
     <br/>
     <div class="row ">
       <div class="card col-5 p-0 m-3">
@@ -37,8 +37,8 @@
           <h3 class="text-center"> Visites sur site web </h3>
         </div>
         <div class="card-body">
-          <h5 class="card-title">Nom de compagne</h5>
-          <input type="text" class="form-control" [(ngModel)]="nomCompagne" placeholder="exemple: compagne d'hiver, publicité vetement, etc ..." >
+          <h5 class="card-title">Nom de campagne</h5>
+          <input type="text" class="form-control" [(ngModel)]="nomCampagne" placeholder="exemple: campagne d'hiver, publicité vetement, etc ..." >
           <br/>
           <h5 class="card-title">Site web</h5>
           <input type="text" class="form-control" [(ngModel)]="urlWebsite" placeholder="exemple https://nom-page-destination.com">
@@ -57,8 +57,8 @@
           <h3 class="text-center">Notoriété de la marque</h3>
         </div>
         <div class="card-body">
-          <h5 class="card-title">Nom de compagne</h5>
-          <input type="text" class="form-control" [(ngModel)]="nomCompagne" placeholder="exemple: compagne d'hiver, publicité vetement, etc ..." >
+          <h5 class="card-title">Nom de campagne</h5>
+          <input type="text" class="form-control" [(ngModel)]="nomCampagne" placeholder="exemple: campagne d'hiver, publicité vetement, etc ..." >
           <br/>
           <button type="button" class="btn btn-primary" (click)="next(2,'notoriété')">Suivant</button>
         </div>
