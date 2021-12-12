@@ -5,6 +5,8 @@ https://www.bezkoder.com/node-js-mongodb-auth-jwt/
 
 cd "Desktop\TRAVAIL\Isma\POLYTECH\INFO 5A\PROJETURBA"
 
+token git : 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
+
 LES COMMANDES :
 lancer le backend : node server.js
 lancer le frontend : ng serve --port 8081
@@ -35,7 +37,7 @@ mongodb+srv://isma:polydebrouillard123@polydebrouillardcluster.mdsqe.mongodb.net
 - Dans chaque playlist il y a 0 ou n vidéos
 - Playlist : 
 	- name : String
-	- Liste de vidéos : Array d'ObjectId
+	- Liste de vidéos : Array d'Object
 	- Utilisateur qui l'a crée : ObjectId
 	- Date création de la playlist : Date
 

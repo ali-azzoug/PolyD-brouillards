@@ -41,3 +41,21 @@ exports.create = (req, res) => {
       });
     });
 };
+
+
+
+// get a random annonce
+exports.getRandomAnnonce = (req, res) => {
+  
+  Annonce.aggregate([{ $sample: { size: 1 } }])
+  .then(data => {
+    if (!data)
+      res.status(404).send({ message: "Not found random annonce with id "});
+    else res.send(data);
+  })
+  .catch(err => {
+    res
+      .status(500)
+      .send({ message: "Error retrieving random annonce"});
+  });
+};

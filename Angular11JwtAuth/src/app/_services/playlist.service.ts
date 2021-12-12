@@ -21,10 +21,10 @@ export class PlaylistService {
 
   // Ajoute une vidéo a la playlist actuelle 
   // Il faut donner en entrée: 
-  // - idPlaylist : un id de playlist
-  // - videoId : l'id de la video a ajouter
-  // - titre : le titre de la video
-  // - description : la description de la video
+  // - idPlaylist : un id de playlist (String)
+  // - videoId : l'id de la video a ajouter (String)
+  // - titre : le titre de la video (String)
+  // - description : la description de la video (String)
   addVideoToPlaylist(data: any): Observable<any> {
     return this.http.post(baseUrl + "/addVideo", data);
   }
@@ -44,5 +44,5 @@ export class PlaylistService {
   getAllVideo(data: any): Observable<any> {
     return this.http.post(baseUrl + "/getAllVideoFromPlaylist", data);
   }
-  
+
 }

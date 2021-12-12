@@ -1,6 +1,8 @@
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../_services/user.service';
+import { AnnonceService } from '../_services/annonce.service';
+import { TokenStorageService } from '../_services/token-storage.service';
 
 @Component({
   selector: 'app-board-annonceur',
@@ -27,8 +29,9 @@ export class BoardAnnonceurComponent implements OnInit {
   imageAnnonce="";
   titreAnnonce="";
   descriptionAnnonce="";
+  errorMessage: any;
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private annonceService: AnnonceService, private token: TokenStorageService) { }
 
   ngOnInit(): void {
     this.userService.getAnnonceurBoard().subscribe(
@@ -65,10 +68,10 @@ export class BoardAnnonceurComponent implements OnInit {
   publierAnnonce() {
     const annonce = {
       nom_campagne: this.nomCampagne,
-      createdBy: 'userId',
+      createdBy: this.token.getUser().username,
       objectif: this.objectif,
       budget: this.budget,
-      zone_geo: this.zone,
+      Zone_geo: this.zone,
       categorie_ciblage: this.targetCategory,
       image_annonce: this.imageAnnonce,
       titre_annonce: this.titreAnnonce,
@@ -76,6 +79,14 @@ export class BoardAnnonceurComponent implements OnInit {
       URL_annonce: this.urlWebsite,
     }
     
+    this.annonceService.createAnnonce(annonce).subscribe(
+      data => {
+        console.log(data);
+      },
+      err => {
+        console.log(err.error.message);
+      }
+    );;
     console.log(annonce);
 
     this.resetData();

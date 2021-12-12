@@ -3,11 +3,11 @@ module.exports = app => {
   
     var router = require("express").Router();
   
-    // Create a new Tutorial
+    // Create a new Annonce
     router.post("/", annonces.create);
   
-    // Retrieve all playlists by username
-    //router.post("/findAnnonce", annonces.FindAnnonces);
+    // Retrieve a random annonce 
+    router.post("/getAnnonce", annonces.getRandomAnnonce);
 
     app.use('/api/annonces', router);
   };
