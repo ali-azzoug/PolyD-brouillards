@@ -15,6 +15,7 @@ import { BoardUserComponent } from './board-user/board-user.component';
 import { BoardAnnonceurComponent } from './board-annonceur/board-annonceur.component';
 
 import { authInterceptorProviders } from './_helpers/auth.interceptor';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { authInterceptorProviders } from './_helpers/auth.interceptor';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgbModule,
   ],
   providers: [authInterceptorProviders],
   bootstrap: [AppComponent]

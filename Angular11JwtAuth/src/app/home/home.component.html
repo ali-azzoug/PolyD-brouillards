@@ -21,15 +21,35 @@
                 </div>
 
                 <div class="row">
-                    <div *ngIf="isLoggedIn" class="text-center ml-5 mt-1 md-2"><button (click)="addToPlaylist(item.id.videoId, item.snippet.title, item.snippet.description)" type="button" class="btn btn-sm btn-outline-primary rounded">+ Add to playlist</button></div>
+                    <div *ngIf="isLoggedIn" class="text-center ml-5 mt-1 md-2">
+                        <button (click)="open(content)" type="button" class="btn btn-sm btn-outline-primary rounded">+ Add to playlist</button>
+                        <ng-template #content let-modal>
+                            <div class="modal-header">
+                              <h4 class="modal-title" id="modal-basic-title">Choose the playlist for your video</h4>
+                              <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body" *ngFor="let playlist of MyPlaylists">
+                                <button type="button" class="btn btn-secondary btn-lg btn-block" (click)="addVideoToPlaylist(playlist,item.id.videoId, item.snippet.title, item.snippet.description); modal.dismiss('Cross click')">{{playlist.name}}</button>
+                            </div>
+                          </ng-template>
+                    </div>
                 </div>
 
-
+                <!-- addToPlaylist(item.id.videoId, item.snippet.title, item.snippet.description) 
+                    Footer pour le modal
+                    <div class="modal-footer" >
+                              <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+                            </div>
+                -->
 
             </div>
         </div>
 
     </div> 
+
+
     <div class="col-4">
         <!-- pub-->
         <a href="https://adidas.com" style="text-decoration: none; color: black;">
@@ -40,7 +60,7 @@
         <br/>
 
         <div *ngIf="isLoggedIn" class="playlist">
-          <h4> Ma playlist Actuelle</h4>
+          <h4> Dernière playlist modifié : {{currentPlaylistName}}</h4>
           <div class="grid">
               <div *ngFor="let video of currentPlaylist" class="row m-1">
                   <div class="miniature round row col-11 border border-light" (click)="watchPlaylist(video)">

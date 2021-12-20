@@ -1,3 +1,93 @@
+
+<div class="content">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <img src="../../assets/undraw_remotely_2j6y.svg" alt="Image" class="img-fluid">
+      </div>
+      <div class="col-md-6 contents">
+        <div class="row justify-content-center">
+          <div class="col-md-8">
+            <div class="mb-4">
+            <h3>Connectez-vous</h3>
+            <p class="mb-4">Entrez votre nom d'utilisateur et votre mot de passe ci-dessous.</p>
+          </div>
+          <form
+        *ngIf="!isLoggedIn"
+        name="form"
+        (ngSubmit)="f.form.valid && onSubmit()"
+        #f="ngForm"
+        novalidate
+      >
+        <div class="form-group">
+          <label for="username">Username :</label>
+          <input
+            type="text"
+            class="form-control"
+            name="username"
+            [(ngModel)]="form.username"
+            required
+            #username="ngModel"
+          />
+          <div
+            class="alert alert-danger"
+            role="alert"
+            *ngIf="username.errors && f.submitted"
+          >
+            Username is required!
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="password">Password :</label>
+          <input
+            type="password"
+            class="form-control"
+            value="et"
+            name="password"
+            [(ngModel)]="form.password"
+            required
+            minlength="6"
+            #password="ngModel"
+          />
+          <div
+            class="alert alert-danger"
+            role="alert"
+            *ngIf="password.errors && f.submitted"
+          >
+            <div *ngIf="password.errors.required">Password is required</div>
+            <div *ngIf="password.errors.minlength">
+              Password must be at least 6 characters
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-primary btn-block">
+            Login
+          </button>
+        </div>
+        <div class="form-group" *ngIf="f.submitted && isLoginFailed">
+          <div
+            class="alert alert-danger"
+            role="alert"
+            *ngIf="f.submitted && isLoginFailed"
+          >
+            Login failed: {{ errorMessage }}
+          </div>
+        </div>
+      </form>
+      <div class="alert alert-success" *ngIf="isLoggedIn">
+        Logged in as {{ roles }}.
+      </div>
+        
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+
+<!-- 
+
 <div class="col-md-12">
     <div class="card card-container">
         <div style="text-align: center;">
@@ -7,7 +97,7 @@
         class="profile-img-card"
         
       />
-        </div>
+      </div>
       <form
         *ngIf="!isLoggedIn"
         name="form"
@@ -76,3 +166,7 @@
       </div>
     </div>
   </div>
+-->
+
+
+
