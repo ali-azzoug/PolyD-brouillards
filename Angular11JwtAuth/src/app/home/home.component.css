@@ -1,3 +1,21 @@
 .miniature:hover {
     background-color: rgb(202, 230, 247);
 }
+
+.col-8 {
+    padding-top: 1rem;
+    
+}
+
+.col-4 {
+    padding-top: 1rem;
+}
+
+iframe{
+    max-width: 100%;
+}
+.modal-body {
+    position: relative;
+    flex: 1 1 auto;
+    padding: 0;
+}

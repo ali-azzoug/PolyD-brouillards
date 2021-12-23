@@ -39,8 +39,10 @@ export class HomeComponent implements OnInit {
   currentVideoDescription: string | undefined;
 
   MyPlaylists : any;
-  currentPlaylistName:string="";
-  currentPlaylist: Array<{videoId: string, title:string, description:string}> = []
+  currentPlaylistName: string="";
+  currentPlaylistId: string="";
+  // currentPlaylist: Array<{videoId: string, title:string, description:string}> = []
+  currentPlaylist: any;
   urlSafe: SafeResourceUrl | undefined; 
 
   errorMessage= "";
@@ -102,6 +104,7 @@ export class HomeComponent implements OnInit {
     return "https://img.youtube.com/vi/" + videoId + "/0.jpg";
   }
 
+/*
   addToPlaylist(videoId: string, title: string, description: string) {
     for(let i =0; i<this.currentPlaylist.length; i++){
       if(this.currentPlaylist[i].videoId === videoId){
@@ -112,7 +115,7 @@ export class HomeComponent implements OnInit {
     this.currentPlaylist.push({videoId,title,description})
 
   }
-
+*/
   addVideoToPlaylist(Playlist: any, videoId: string, title: string, description: string) {
 
     const data = {
@@ -122,7 +125,12 @@ export class HomeComponent implements OnInit {
       description:description
     };
 
+    const data2 = {
+      idPlaylist: Playlist._id,
+    };
+
     this.currentPlaylistName = Playlist.name;
+    this.currentPlaylistId = Playlist._id;
     this.playlistService.addVideoToPlaylist(data).subscribe(
       data => {
         console.log(data);
@@ -132,14 +140,49 @@ export class HomeComponent implements OnInit {
       }
     );
 
+    // Actualise la playlist actuelle 
+    this.playlistService.getAllVideo(data2).subscribe(
+      data => {
+        this.currentPlaylist = data;
+      },
+      err => {
+        this.errorMessage = err.error.message;
+      }
+    );
+
   }
 
-  removeFromPlaylist(video:{videoId: string, title: string, description: string}) {
-    for(let i =0; i<this.currentPlaylist.length; i++){
-      if(this.currentPlaylist[i] === video){
-        this.currentPlaylist.splice(i, 1);
+  removeFromPlaylist(idVideo: String) {
+
+    const data = {
+      idPlaylist: this.currentPlaylistId,
+      videoId: idVideo
+    };
+
+    const data2 = {
+      idPlaylist: this.currentPlaylistId,
+    };
+
+    this.playlistService.removeVideo(data).subscribe(
+      data => {
+        console.log(data);
+        //this.currentPlaylist = data;
+      },
+      err => {
+        this.errorMessage = err.error.message;
       }
-    }
+    );
+
+      // Actualise la playlist actuelle 
+    this.playlistService.getAllVideo(data2).subscribe(
+      data => {
+        this.currentPlaylist = data;
+      },
+      err => {
+        this.errorMessage = err.error.message;
+      }
+    );
+
   }
 
   open(content:any) {

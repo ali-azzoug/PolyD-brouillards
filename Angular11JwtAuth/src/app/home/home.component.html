@@ -1,16 +1,15 @@
-<p></p>
-
+<div class="container">
 <div class="row">
-
+    
     <div class="col-8">
-
+        <div class="shadow p-3 mb-5 bg-white rounded">
         <div class="input-group mb-3">
             <input type="text" class="form-control" placeholder="Rechercher une vidéo" (keydown.enter)="searchVideos()" [(ngModel)]="VideoQuery">
             <button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="searchVideos()">Recherche</button>
         </div>
 
         
-        <iframe *ngIf="this.currentVideo" width="711" height="400" [src]="urlSafe" title="YouTube video player" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+        <iframe *ngIf="this.currentVideo" width="670" height="400" [src]="urlSafe" title="YouTube video player" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
         <h3 class="bold text-truncate p-1" *ngIf="this.currentVideoTitle">{{this.currentVideoTitle}}</h3>
 
         <div *ngIf="listeVideos" class="row">
@@ -31,7 +30,9 @@
                               </button>
                             </div>
                             <div class="modal-body" *ngFor="let playlist of MyPlaylists">
-                                <button type="button" class="btn btn-secondary btn-lg btn-block" (click)="addVideoToPlaylist(playlist,item.id.videoId, item.snippet.title, item.snippet.description); modal.dismiss('Cross click')">{{playlist.name}}</button>
+                                <div class="list-group">
+                                    <button type="button" class="list-group-item list-group-item-action" (click)="addVideoToPlaylist(playlist,item.id.videoId, item.snippet.title, item.snippet.description); modal.dismiss('Cross click')">{{playlist.name}}</button>
+                                </div>
                             </div>
                           </ng-template>
                     </div>
@@ -46,7 +47,7 @@
 
             </div>
         </div>
-
+        </div>
     </div> 
 
 
@@ -69,7 +70,7 @@
                       </div>
                       <div class="col-7">
                           <div class="row">
-                              <p class="col-12 text-truncate p-0 m-0 text-dark" style="font-weight: bold; font-size: 12px !important;">{{video.title}}</p>
+                              <p class="col-12 text-truncate p-0 m-0 text-dark" style="font-weight: bold; font-size: 12px !important;">{{video.titre}}</p>
                           </div>
                           <div class="row">
                               <p class="text-truncate p-0" style="font-size: 12px !important;">{{video.description}}</p>
@@ -78,7 +79,7 @@
                       </div>
                   </div>
   
-                  <div class="col-1 mt-3"><button (click)="removeFromPlaylist(video)" type="button" class="btn btn-sm btn-outline-danger rounded-circle">X</button></div>
+                  <div class="col-1 mt-3"><button (click)="removeFromPlaylist(video.videoId)" type="button" class="btn btn-sm btn-outline-danger rounded-circle">X</button></div>
               </div>
               
           </div>
@@ -91,4 +92,5 @@
         </div>
 
     </div>
+</div>
 </div>
