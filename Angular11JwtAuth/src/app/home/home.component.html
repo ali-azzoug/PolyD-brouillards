@@ -1,52 +1,81 @@
 <div class="container">
 <div class="row">
     
+    <ngb-carousel 
+    [showNavigationArrows]="true" 
+    [showNavigationIndicators]="true"
+    [interval]="4000"
+    [keyboard]="true"
+    [pauseOnHover]="false"
+    [wrap]="true">
+
+        <ng-template ngbSlide>
+          <div class="picsum-img-wrapper">
+            <img class="carouselImg" src="../../assets/banniereVidea.png" alt="Angular Carousel 1">
+          </div>
+          <div class="carousel-caption">
+              <!--
+            <h3>Title Goes Here</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                -->
+          </div>
+        </ng-template>
+        <ng-template ngbSlide>
+          <div class="picsum-img-wrapper">
+            <img class="carouselImg" src="https://orangecaraibe.allmol.com/maitre_gims_tournee_antilles_guyane/banniere_covering_maitre_gims.jpg" alt="Angular Carousel 2">
+          </div>
+          <div class="carousel-caption">
+          </div>
+        </ng-template>
+      </ngb-carousel>
+
     <div class="col-8">
         <div class="shadow p-3 mb-5 bg-white rounded">
-        <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Rechercher une vidéo" (keydown.enter)="searchVideos()" [(ngModel)]="VideoQuery">
-            <button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="searchVideos()">Recherche</button>
-        </div>
 
-        
-        <iframe *ngIf="this.currentVideo" width="670" height="400" [src]="urlSafe" title="YouTube video player" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
-        <h3 class="bold text-truncate p-1" *ngIf="this.currentVideoTitle">{{this.currentVideoTitle}}</h3>
-
-        <div *ngIf="listeVideos" class="row">
-            <div  class="col-4" *ngFor="let item of youtubeData?.items">
-                <div class="miniature round card m-1" (click)="watchVideo(item)">
-                    <img class="col-12 m-0 p-2" src="{{getThumbnails(item.id.videoId)}}" >
-                    <p class="col-12 p-1 text-truncate font-weight-bold">{{item.snippet.title}}</p>
-                </div>
-
-                <div class="row">
-                    <div *ngIf="isLoggedIn" class="text-center ml-5 mt-1 md-2">
-                        <button (click)="open(content)" type="button" class="btn btn-sm btn-outline-primary rounded">+ Add to playlist</button>
-                        <ng-template #content let-modal>
-                            <div class="modal-header">
-                              <h4 class="modal-title" id="modal-basic-title">Choose the playlist for your video</h4>
-                              <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-                                <span aria-hidden="true">&times;</span>
-                              </button>
-                            </div>
-                            <div class="modal-body" *ngFor="let playlist of MyPlaylists">
-                                <div class="list-group">
-                                    <button type="button" class="list-group-item list-group-item-action" (click)="addVideoToPlaylist(playlist,item.id.videoId, item.snippet.title, item.snippet.description); modal.dismiss('Cross click')">{{playlist.name}}</button>
-                                </div>
-                            </div>
-                          </ng-template>
-                    </div>
-                </div>
-
-                <!-- addToPlaylist(item.id.videoId, item.snippet.title, item.snippet.description) 
-                    Footer pour le modal
-                    <div class="modal-footer" >
-                              <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
-                            </div>
-                -->
-
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Rechercher une vidéo" (keydown.enter)="searchVideos()" [(ngModel)]="VideoQuery">
+                <button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="searchVideos()">Recherche</button>
             </div>
-        </div>
+
+            
+            <iframe *ngIf="this.currentVideo" width="670" height="400" [src]="urlSafe" title="YouTube video player" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+            <h3 class="bold text-truncate p-1" *ngIf="this.currentVideoTitle">{{this.currentVideoTitle}}</h3>
+
+            <div *ngIf="listeVideos" class="row">
+                <div  class="col-4" *ngFor="let item of youtubeData?.items">
+                    <div class="miniature round card m-1" (click)="watchVideo(item)">
+                        <img class="col-12 m-0 p-2" src="{{getThumbnails(item.id.videoId)}}" >
+                        <p class="col-12 p-1 text-truncate font-weight-bold">{{item.snippet.title}}</p>
+                    </div>
+
+                    <div class="row">
+                        <div *ngIf="isLoggedIn" class="text-center ml-5 mt-1 md-2">
+                            <button (click)="open(content)" type="button" class="btn btn-sm btn-outline-primary rounded">+ Add to playlist</button>
+                            <ng-template #content let-modal>
+                                <div class="modal-header">
+                                <h4 class="modal-title" id="modal-basic-title">Choose the playlist for your video</h4>
+                                <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                </div>
+                                <div class="modal-body" *ngFor="let playlist of MyPlaylists">
+                                    <div class="list-group">
+                                        <button type="button" class="list-group-item list-group-item-action" (click)="addVideoToPlaylist(playlist,item.id.videoId, item.snippet.title, item.snippet.description); modal.dismiss('Cross click')">{{playlist.name}}</button>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </div>
+                    </div>
+
+                    <!-- addToPlaylist(item.id.videoId, item.snippet.title, item.snippet.description) 
+                        Footer pour le modal
+                        <div class="modal-footer" >
+                                <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+                                </div>
+                    -->
+
+                </div>
+            </div>
         </div>
     </div> 
 
