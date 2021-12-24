@@ -12,6 +12,7 @@ export class RegisterComponent implements OnInit {
     email: null,
     password: null
   };
+  superRole = false;
   isSuccessful = false;
   isSignUpFailed = false;
   errorMessage = '';
@@ -22,9 +23,10 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit(): void {
-    const { username, email, password, roles } = this.form;
+    const { username, email, password } = this.form;
 
-    this.authService.register(username, email, password, roles).subscribe(
+    const role = this.superRole ? 'annonceur' : 'user';
+    this.authService.register(username, email, password, role).subscribe(
       data => {
         console.log(data);
         this.isSuccessful = true;

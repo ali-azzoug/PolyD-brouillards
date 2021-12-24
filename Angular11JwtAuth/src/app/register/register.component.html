@@ -77,19 +77,14 @@
             </div>
           </div>
         </div>
-        <div class="form-group">
-          <label for="roles">Votre role (écrire : annonceur ou user) ?</label>
-          <input
-            type="text"
-            class="form-control"
-            name="roles"
-            id="roles"
-            [(ngModel)]="form.roles"
-            required
-            #roles="ngModel"
-          >
+        <div class="form-check">
+          <input  class="form-check-input primary" type="checkbox" [(ngModel)]="superRole" required>
+          <label class="form-check-label">
+            Je veux diffuser des annonces
+        </label>
         </div>
-
+        <br/>
+        
         <div class="form-group">
           <button class="btn btn-primary btn-block">Sign Up</button>
         </div>
