@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../_services/user.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { YoutubeapiService } from '../_services/youtubeapi.service';
+import { DailymotionapiService } from '../_services/dailymotionapi.service';
 import { TokenStorageService } from '../_services/token-storage.service';
 import { AnnonceService } from '../_services/annonce.service';
 import { PlaylistService } from '../_services/playlist.service';
@@ -51,6 +52,7 @@ export class HomeComponent implements OnInit {
     private userService: UserService, 
     private playlistService: PlaylistService,
     private youtubeapi: YoutubeapiService,
+    private dailymotionapi : DailymotionapiService,
     public sanitizer: DomSanitizer,
     private tokenStorageService: TokenStorageService,
     private annonceService: AnnonceService,
@@ -71,6 +73,9 @@ export class HomeComponent implements OnInit {
       }
     );
 
+
+    const videoDailymotion = this.dailymotionapi.queryDailymotion('football', 3);
+    console.log('dailymotion ', videoDailymotion);
   }
 
   
