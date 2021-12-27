@@ -19,6 +19,7 @@ export class HomeComponent implements OnInit {
   closeResult: string = "";
   currentUser = this.tokenStorageService.getUser();
   VideoQuery = "";
+  dailymotionList: any;
   youtubeData = {items: [
     {
       id:{
@@ -62,6 +63,10 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     if (this.currentVideo) { this.urlSafe= this.sanitizer.bypassSecurityTrustResourceUrl(this.currentVideo); }
     this.youtubeData = this.youtubeapi.queryYoutube("populaire", 9);
+
+    const dailymotionData = this.dailymotionapi.queryDailymotion("football", 6);
+    this.dailymotionList = dailymotionData.list;
+
     this.listeVideos = this.youtubeData.items;
     this.isLoggedIn = !!this.tokenStorageService.getToken();
     this.annonceService.getAnnonce("").subscribe(
@@ -74,8 +79,6 @@ export class HomeComponent implements OnInit {
     );
 
 
-    const videoDailymotion = this.dailymotionapi.queryDailymotion('football', 3);
-    console.log('dailymotion ', videoDailymotion);
   }
 
   
@@ -87,14 +90,28 @@ export class HomeComponent implements OnInit {
       this.youtubeData = this.youtubeapi.queryYoutube(this.VideoQuery, 12);
       this.listeVideos = this.youtubeData.items;
 
+      const dailymotionData = this.dailymotionapi.queryDailymotion(this.VideoQuery, 12);
+      this.dailymotionList = dailymotionData.list;
     }
   }
 
-  watchVideo(item: {id:{videoId:string},snippet:{title:string,description:string}}) {
+
+
+  watchDailymotionVideo(videoData:{Id: string, title: string, description: string, embed_url: string, thumbnail_360_url: string}): any {
+    this.currentVideo = videoData.embed_url;
+    this.currentVideoTitle = videoData.title;
+    this.currentVideoDescription = videoData.description;
+    this.urlSafe = this.sanitizer.bypassSecurityTrustResourceUrl(this.currentVideo);
+    window.scroll(0, 0);
+  }
+
+  watchYoutubeVideo(item: {id:{videoId:string},snippet:{title:string,description:string}}) {
     this.currentVideo = "https://www.youtube.com/embed/" + item.id.videoId;
     this.currentVideoTitle = item.snippet.title;
     this.currentVideoDescription = item.snippet.description;
     this.urlSafe= this.sanitizer.bypassSecurityTrustResourceUrl(this.currentVideo);
+    window.scroll(100, 100);
+
   }
 
   // regarder une vidéo de la playlist

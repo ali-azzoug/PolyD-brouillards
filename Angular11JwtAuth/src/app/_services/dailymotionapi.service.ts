@@ -8,9 +8,8 @@ export class DailymotionapiService {
   constructor() { }
 
   public queryDailymotion(query: string, maxResults?: number ) {
-    let link = 'https://api.dailymotion.com/videos?fields=id%2Ctitle%2Cembed_url%2Cthumbnail_360_url&page=1';
+    let link = 'https://api.dailymotion.com/videos?fields=id%2Ctitle%2Cembed_url%2Cthumbnail_360_url%2Cdescription&page=1';
     if (query.length > 0) {
-      // &search=football&limit=5
       link += '&search=' + query;
       if (maxResults) {    link += '&limit=' + maxResults?.toString(); }
       else {link += '&limit=6'; }

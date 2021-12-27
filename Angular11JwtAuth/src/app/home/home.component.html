@@ -1,49 +1,27 @@
-<div class="container">
 <div class="row">
     
-    <ngb-carousel 
-    [showNavigationArrows]="true" 
-    [showNavigationIndicators]="true"
-    [interval]="4000"
-    [keyboard]="true"
-    [pauseOnHover]="false"
-    [wrap]="true">
-
-        <ng-template ngbSlide>
-          <div class="picsum-img-wrapper">
-            <img class="carouselImg" src="../../assets/banniereVidea.png" alt="Angular Carousel 1">
-          </div>
-          <div class="carousel-caption">
-              <!--
-            <h3>Title Goes Here</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                -->
-          </div>
-        </ng-template>
-        <ng-template ngbSlide>
-          <div class="picsum-img-wrapper">
-            <img class="carouselImg" src="https://orangecaraibe.allmol.com/maitre_gims_tournee_antilles_guyane/banniere_covering_maitre_gims.jpg" alt="Angular Carousel 2">
-          </div>
-          <div class="carousel-caption">
-          </div>
-        </ng-template>
-      </ngb-carousel>
 
     <div class="col-8">
         <div class="shadow p-3 mb-5 bg-white rounded">
 
+            <!-- Search section-->
             <div class="input-group mb-3">
                 <input type="text" class="form-control" placeholder="Rechercher une vidéo" (keydown.enter)="searchVideos()" [(ngModel)]="VideoQuery">
                 <button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="searchVideos()">Recherche</button>
             </div>
 
-            
+            <!-- Video iframe section -->
             <iframe *ngIf="this.currentVideo" width="670" height="400" [src]="urlSafe" title="YouTube video player" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
             <h3 class="bold text-truncate p-1" *ngIf="this.currentVideoTitle">{{this.currentVideoTitle}}</h3>
 
+            <!-- Liste video section -->
             <div *ngIf="listeVideos" class="row">
+                <div class="col-12 m-0 pt-0 pb-0">
+                    <div class="col-2 p-0 m-0"><img class="col-12 m-0 p-2" src="../../assets/YouTube-logo.png"></div>
+                </div>
+                <br/>
                 <div  class="col-4" *ngFor="let item of youtubeData?.items">
-                    <div class="miniature round card m-1" (click)="watchVideo(item)">
+                    <div class="miniature round card m-1" (click)="watchYoutubeVideo(item)">
                         <img class="col-12 m-0 p-2" src="{{getThumbnails(item.id.videoId)}}" >
                         <p class="col-12 p-1 text-truncate font-weight-bold">{{item.snippet.title}}</p>
                     </div>
@@ -75,6 +53,16 @@
                     -->
 
                 </div>
+
+                <div class="col-12 m-0 mt-3 pb-0">
+                    <div class="col-3 p-0 "><img class="col-12 m-0 p-2" src="../../assets/dailymotion-logo.png"></div>
+                </div>
+                <div  class="col-4" *ngFor="let video of dailymotionList">
+                    <div class="miniature round card m-1" (click)="watchDailymotionVideo(video)">
+                        <img class="col-12 m-0 p-2" src={{video.thumbnail_360_url}} >
+                        <p class="col-12 p-1 text-truncate font-weight-bold">{{video.title}}</p>
+                    </div> 
+                </div>
             </div>
         </div>
     </div> 
@@ -89,6 +77,7 @@
         <p class="text-primary px-2">annonce</p>
         <br/>
 
+        <!-- Playlist section -->
         <div *ngIf="isLoggedIn" class="playlist">
           <h4> Dernière playlist modifié : {{currentPlaylistName}}</h4>
           <div class="grid">
@@ -121,5 +110,33 @@
         </div>
 
     </div>
-</div>
+
+    <ngb-carousel 
+    [showNavigationArrows]="true" 
+    [showNavigationIndicators]="true"
+    [interval]="4000"
+    [keyboard]="true"
+    [pauseOnHover]="false"
+    [wrap]="true">
+
+        <ng-template ngbSlide>
+          <div class="picsum-img-wrapper">
+            <img class="carouselImg" src="../../assets/banniereVidea.png" alt="Angular Carousel 1">
+          </div>
+          <div class="carousel-caption">
+              <!--
+            <h3>Title Goes Here</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                -->
+          </div>
+        </ng-template>
+        <ng-template ngbSlide>
+          <div class="picsum-img-wrapper">
+            <img class="carouselImg" src="https://orangecaraibe.allmol.com/maitre_gims_tournee_antilles_guyane/banniere_covering_maitre_gims.jpg" alt="Angular Carousel 2">
+          </div>
+          <div class="carousel-caption">
+          </div>
+        </ng-template>
+      </ngb-carousel>
+
 </div>
