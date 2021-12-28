@@ -58,7 +58,14 @@ exports.addVideo = (req, res) => {
       message: "Data to update can not be empty!"
     });
   }
-  const myObject = {videoId: req.body.videoId, titre: req.body.titre, description: req.body.description};
+  const myObject = {
+    videoId: req.body.videoId,
+    titre: req.body.titre,
+    description: req.body.description,
+    embed_url: req.body.embed_url,
+    thumbnail_url: req.body.thumbnail_url,
+    source: req.body.source
+  };
   const id = req.body.idPlaylist
 
   Playlist.findByIdAndUpdate(id, {"$push" :{"video_list" : myObject }})

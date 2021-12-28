@@ -49,11 +49,14 @@ export class HomeComponent implements OnInit {
 
   errorMessage= "";
 
+  wantNewPlaylist = false;
+  newPlaylistName = '';
+
   constructor(
     private userService: UserService, 
     private playlistService: PlaylistService,
     private youtubeapi: YoutubeapiService,
-    private dailymotionapi : DailymotionapiService,
+    private dailymotionapi: DailymotionapiService,
     public sanitizer: DomSanitizer,
     private tokenStorageService: TokenStorageService,
     private annonceService: AnnonceService,
@@ -78,10 +81,25 @@ export class HomeComponent implements OnInit {
       }
     );
 
+    if (!!this.tokenStorageService.getToken()) {  // if isLoggedIn
+      const myaccount = { createdBy: this.currentUser.username, };
+      this.playlistService.findByUsername(myaccount).subscribe(
+        data => {
+           this.MyPlaylists = data;
+           if (this.MyPlaylists[0]) { // si l'utilisateur a créé au moins 1 playlist
+            this.currentPlaylistId = this.MyPlaylists[0]._id;
+            this.currentPlaylistName = this.MyPlaylists[0].name;
+
+                // Actualise la playlist actuelle 
+            this.playlistService.getAllVideo({idPlaylist: this.currentPlaylistId, }).subscribe(
+              listOfVideos => { this.currentPlaylist = listOfVideos; });
+           }
+          });
+    }
 
   }
 
-  
+
   searchVideos() {
     if (this.VideoQuery === "") { console.log("aucun mot clé") }
     else {
@@ -115,36 +133,71 @@ export class HomeComponent implements OnInit {
   }
 
   // regarder une vidéo de la playlist
-  watchPlaylist(video:{videoId: string, title: string, description: string}) {
-    this.currentVideo = "https://www.youtube.com/embed/" + video.videoId;
-    this.currentVideoTitle = video.title;
-    this.currentVideoDescription = video.description;
-    this.urlSafe= this.sanitizer.bypassSecurityTrustResourceUrl(this.currentVideo);
+  watchPlaylist(video: {videoId: string, titre: string, description: string, source: string, embed_url: string}): void {
+
+    if (video.source === 'dailymotion') {
+      this.currentVideo = video.embed_url;
+      this.currentVideoTitle = video.titre;
+      this.currentVideoDescription = video.description;
+      this.urlSafe = this.sanitizer.bypassSecurityTrustResourceUrl(this.currentVideo);
+      window.scroll(0, 0);
+    }
+
+    else {
+
+      this.currentVideo = "https://www.youtube.com/embed/" + video.videoId;
+      this.currentVideoTitle = video.titre;
+      this.currentVideoDescription = video.description;
+      this.urlSafe = this.sanitizer.bypassSecurityTrustResourceUrl(this.currentVideo);
+    }
   }
 
   getThumbnails(videoId : string) {
     return "https://img.youtube.com/vi/" + videoId + "/0.jpg";
   }
 
-/*
-  addToPlaylist(videoId: string, title: string, description: string) {
-    for(let i =0; i<this.currentPlaylist.length; i++){
-      if(this.currentPlaylist[i].videoId === videoId){
-        return
-      }
+  switchPlaylist(): void {
+    this.playlistService.getAllVideo({idPlaylist: this.currentPlaylistId, }).subscribe(
+      listOfVideos => { this.currentPlaylist = listOfVideos; });
+  }
+
+  addPlaylist(): void{
+    const data = {
+      createdBy: this.currentUser.username,
+      name: this.newPlaylistName
+    };
+
+    if (this.newPlaylistName !== '') {
+        this.playlistService.createPlaylist(data).subscribe(
+        data => {
+          console.log(data);
+          this.playlistService.findByUsername({ createdBy: this.currentUser.username, }).subscribe(
+            list => {
+               this.MyPlaylists = list;
+            });
+        },
+        err => {
+          this.errorMessage = err.error.message;
+        }
+      );
     }
 
-    this.currentPlaylist.push({videoId,title,description})
+    this.DecisionWantPlaylist();
 
   }
-*/
-  addVideoToPlaylist(Playlist: any, videoId: string, title: string, description: string) {
+
+  addVideoToPlaylist(
+    Playlist: any, videoId: string, title: string, description: string, embedUrl?: string, thumbnailUrl?: string, source?: string
+    ) {
 
     const data = {
       idPlaylist: Playlist._id,
-      videoId:videoId,
+      videoId,
       titre: title,
-      description:description
+      description,
+      embed_url: embedUrl,
+      thumbnail_url: thumbnailUrl,
+      source,
     };
 
     const data2 = {
@@ -242,4 +295,8 @@ export class HomeComponent implements OnInit {
   }
 
 
+  DecisionWantPlaylist(): void{
+    this.wantNewPlaylist = ! this.wantNewPlaylist;
+    this.newPlaylistName = '';
+  }
 }
