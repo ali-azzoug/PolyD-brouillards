@@ -1,49 +1,28 @@
-<div class="container">
 <div class="row">
     
-    <ngb-carousel 
-    [showNavigationArrows]="true" 
-    [showNavigationIndicators]="true"
-    [interval]="4000"
-    [keyboard]="true"
-    [pauseOnHover]="false"
-    [wrap]="true">
-
-        <ng-template ngbSlide>
-          <div class="picsum-img-wrapper">
-            <img class="carouselImg" src="../../assets/banniereVidea.png" alt="Angular Carousel 1">
-          </div>
-          <div class="carousel-caption">
-              <!--
-            <h3>Title Goes Here</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                -->
-          </div>
-        </ng-template>
-        <ng-template ngbSlide>
-          <div class="picsum-img-wrapper">
-            <img class="carouselImg" src="https://orangecaraibe.allmol.com/maitre_gims_tournee_antilles_guyane/banniere_covering_maitre_gims.jpg" alt="Angular Carousel 2">
-          </div>
-          <div class="carousel-caption">
-          </div>
-        </ng-template>
-      </ngb-carousel>
 
     <div class="col-8">
         <div class="shadow p-3 mb-5 bg-white rounded">
 
+            <!-- Search section-->
             <div class="input-group mb-3">
                 <input type="text" class="form-control" placeholder="Rechercher une vidéo" (keydown.enter)="searchVideos()" [(ngModel)]="VideoQuery">
                 <button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="searchVideos()">Recherche</button>
             </div>
 
-            
+            <!-- Video iframe section -->
             <iframe *ngIf="this.currentVideo" width="670" height="400" [src]="urlSafe" title="YouTube video player" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
             <h3 class="bold text-truncate p-1" *ngIf="this.currentVideoTitle">{{this.currentVideoTitle}}</h3>
 
+            <!-- Liste video section -->
             <div *ngIf="listeVideos" class="row">
+                <!-- youtube list -->
+                <div class="col-12 m-0 pt-0 pb-0">
+                    <div class="col-2 p-0 m-0"><img class="col-12 m-0 p-2" src="../../assets/YouTube-logo.png"></div>
+                </div>
+                <br/>
                 <div  class="col-4" *ngFor="let item of youtubeData?.items">
-                    <div class="miniature round card m-1" (click)="watchVideo(item)">
+                    <div class="miniature round card m-1" (click)="watchYoutubeVideo(item)">
                         <img class="col-12 m-0 p-2" src="{{getThumbnails(item.id.videoId)}}" >
                         <p class="col-12 p-1 text-truncate font-weight-bold">{{item.snippet.title}}</p>
                     </div>
@@ -75,6 +54,37 @@
                     -->
 
                 </div>
+
+                <!-- dailymotion list -->
+                <div class="col-12 m-0 mt-3 pb-0">
+                    <div class="col-3 p-0 "><img class="col-12 m-0 p-2" src="../../assets/dailymotion-logo.png"></div>
+                </div>
+                <div  class="col-4" *ngFor="let video of dailymotionList">
+                    <div class="miniature round card m-1" (click)="watchDailymotionVideo(video)">
+                        <img class="col-12 m-0 p-2" src={{video.thumbnail_360_url}} >
+                        <p class="col-12 p-1 text-truncate font-weight-bold">{{video.title}}</p>
+                    </div> 
+
+                    <div class="row">
+                        <div *ngIf="isLoggedIn" class="text-center ml-5 mt-1 md-2">
+                            <button (click)="open(content)" type="button" class="btn btn-sm btn-outline-primary rounded">+ Add to playlist</button>
+                            <ng-template #content let-modal>
+                                <div class="modal-header">
+                                <h4 class="modal-title" id="modal-basic-title">Choose the playlist for your video</h4>
+                                <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                </div>
+                                <div class="modal-body" *ngFor="let playlist of MyPlaylists">
+                                    <div class="list-group">
+                                        <button type="button" class="list-group-item list-group-item-action" (click)="addVideoToPlaylist(playlist,video.id, video.title, video.description, video.embed_url, video.thumbnail_360_url, 'dailymotion'); modal.dismiss('Cross click')">{{playlist.name}}</button>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div> 
@@ -89,21 +99,45 @@
         <p class="text-primary px-2">annonce</p>
         <br/>
 
+        <!-- Playlist section -->
         <div *ngIf="isLoggedIn" class="playlist">
-          <h4> Dernière playlist modifié : {{currentPlaylistName}}</h4>
+            <h4> Playlists</h4>
+
+            <!-- switch playlist-->
+            <select *ngIf="MyPlaylists.length > 0" class="form-control" name="selectAction" aria-label="Default select example"
+            [(ngModel)]="currentPlaylistId" (change)="switchPlaylist()">
+                   <option *ngFor="let playlist of MyPlaylists" [value]="playlist._id">>
+                     {{playlist.name}}
+                   </option> 
+             </select>
+
+            <!-- add new Playlist -->
+            <div class="col-12 row m-1" >
+                <div class="col-12" *ngIf="!wantNewPlaylist" ><button (click)="DecisionWantPlaylist()" type="button" class="btn btn-sm btn-outline rounded-circle">Créer une nouvelle Playlist</button></div>
+                <div class="col-8 m-0">
+                    <div class="input-group mb-3 mt-0" *ngIf="wantNewPlaylist">
+                        <input type="text" [(ngModel)]="newPlaylistName" class="form-control" placeholder="nom" (keydown.enter)="addPlaylist()">
+                    </div>
+                </div>
+                <div class="col-2 mt-3" *ngIf="wantNewPlaylist" ><button (click)="DecisionWantPlaylist()" type="button" class="btn btn-sm btn-secondary ">Annuler</button></div>
+
+
+            </div>
+
           <div class="grid">
               <div *ngFor="let video of currentPlaylist" class="row m-1">
                   <div class="miniature round row col-11 border border-light" (click)="watchPlaylist(video)">
                       <div class="col-5">
-                          <img width="100%" src="{{getThumbnails(video.videoId)}}" alt="" width="100%">
-                      </div>
+                        <img *ngIf="video.source === 'dailymotion'" width="100%" src="{{video.thumbnail_url}}" alt="" width="100%">
+                        <img *ngIf="video.source !== 'dailymotion'" width="100%" src="{{getThumbnails(video.videoId)}}" alt="" width="100%">
+                    </div>
                       <div class="col-7">
                           <div class="row">
                               <p class="col-12 text-truncate p-0 m-0 text-dark" style="font-weight: bold; font-size: 12px !important;">{{video.titre}}</p>
                           </div>
                           <div class="row">
-                              <p class="text-truncate p-0" style="font-size: 12px !important;">{{video.description}}</p>
-                              
+                            <p class="text-truncate p-0" style="font-size: 12px !important;">{{video.description}}</p>
+                            
                           </div>
                       </div>
                   </div>
@@ -121,5 +155,33 @@
         </div>
 
     </div>
-</div>
+
+    <ngb-carousel 
+    [showNavigationArrows]="true" 
+    [showNavigationIndicators]="true"
+    [interval]="4000"
+    [keyboard]="true"
+    [pauseOnHover]="false"
+    [wrap]="true">
+
+        <ng-template ngbSlide>
+          <div class="picsum-img-wrapper">
+            <img class="carouselImg" src="../../assets/banniereVidea.png" alt="Angular Carousel 1">
+          </div>
+          <div class="carousel-caption">
+              <!--
+            <h3>Title Goes Here</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                -->
+          </div>
+        </ng-template>
+        <ng-template ngbSlide>
+          <div class="picsum-img-wrapper">
+            <img class="carouselImg" src="https://orangecaraibe.allmol.com/maitre_gims_tournee_antilles_guyane/banniere_covering_maitre_gims.jpg" alt="Angular Carousel 2">
+          </div>
+          <div class="carousel-caption">
+          </div>
+        </ng-template>
+      </ngb-carousel>
+
 </div>

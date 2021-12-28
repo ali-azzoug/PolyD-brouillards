@@ -6,7 +6,10 @@ module.exports = mongoose => {
         video_list: [{
           videoId : String,
           titre : String,
-          description : String
+          description : String,
+          embed_url: String,
+          thumbnail_url: String,
+          source: String
           }],
         updated: { type: Date, default: Date.now },
       }

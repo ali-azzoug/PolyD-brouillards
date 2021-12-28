@@ -12,7 +12,7 @@ export class RegisterComponent implements OnInit {
     email: null,
     password: null
   };
-  superRole = false;
+  role = 'user';
   isSuccessful = false;
   isSignUpFailed = false;
   errorMessage = '';
@@ -22,10 +22,15 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onSubmit(): void {
-    const { username, email, password } = this.form;
+  onCheckboxChange(): void{
+    if (this.role === 'user') { this.role = 'annonceur'; }
+    else { this.role = 'user'; }
+  }
 
-    const role = this.superRole ? 'annonceur' : 'user';
+  onSubmit(): void {
+    const { username, email, password} = this.form;
+    const role = this.role;
+    console.log({ username, email, password, role });
     this.authService.register(username, email, password, role).subscribe(
       data => {
         console.log(data);
