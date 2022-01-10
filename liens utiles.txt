@@ -4,6 +4,7 @@ https://www.bezkoder.com/node-express-mongodb-crud-rest-api/
 https://www.bezkoder.com/node-js-mongodb-auth-jwt/
 
 cd "Desktop\TRAVAIL\Isma\POLYTECH\INFO 5A\PROJETURBA"
+cd POLYTECH/INFO\ 5A/PolyD-brouillards/Angular11JwtAuth/
 
 token git : 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
 

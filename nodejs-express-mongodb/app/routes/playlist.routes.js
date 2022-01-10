@@ -18,5 +18,11 @@ module.exports = app => {
 
     router.post("/removeVideo", playlists.deleteVideo);
 
+    router.post("/updateName", playlists.ChangePlaylistName);
+
+    router.post("/updateImage", playlists.ChangePlaylistUrl);
+
+    router.post("/deletePlaylist", playlists.deletePlaylist);
+
     app.use('/api/playlists', router);
   };

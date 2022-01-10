@@ -3,6 +3,7 @@ module.exports = mongoose => {
       {
         name: String,
         created_by: String,
+        playlist_url: String,
         video_list: [{
           videoId : String,
           titre : String,

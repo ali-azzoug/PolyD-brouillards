@@ -14,10 +14,15 @@ exports.create = (req, res) => {
     return;
   }
 
+  if(!req.body.playlist_url){
+    req.body.playlist_url = "https://decizia.com/blog/wp-content/uploads/2017/06/default-placeholder.png";
+  }
+
   // Create a playlist
   const playlist = new Playlist({
     name: req.body.name,
     video_list: [],
+    playlist_url:req.body.playlist_url,
     created_by: req.body.createdBy,
     updated: new Date,
   });
@@ -50,6 +55,39 @@ exports.FindPlaylistsByUsername = (req, res) => {
       });
   };
 
+  // Change name of playlist
+exports.ChangePlaylistName = (req, res) => {
+
+  const id = req.body.idPlaylist
+
+  Playlist.findByIdAndUpdate(id, {"name" : req.body.newName} )
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving playlists."
+      });
+    });
+};
+
+  // Change url image of playlist
+  exports.ChangePlaylistUrl = (req, res) => {
+
+    const id = req.body.idPlaylist
+  
+    Playlist.findByIdAndUpdate(id, {"playlist_url" : req.body.newUrl} )
+      .then(data => {
+        res.send(data);
+      })
+      .catch(err => {
+        res.status(500).send({
+          message:
+            err.message || "Some error occurred while retrieving playlists."
+        });
+      });
+  };
 
   // Update a playlist by adding a video in the request
 exports.addVideo = (req, res) => {
@@ -139,6 +177,29 @@ exports.addVideo = (req, res) => {
       .catch(err => {
         res.status(500).send({
           message: "Could not delete Video with id=" + id
+        });
+      });
+  };
+
+
+  exports.deletePlaylist = (req, res) => {
+    const id = req.body.idPlaylist;
+
+    Playlist.deleteOne({ "_id" : id})
+      .then(data => {
+        if (!data) {
+          res.status(404).send({
+            message: `Cannot delete playlist with id=${id}. Maybe video was not found!`
+          });
+        } else {
+          res.send({
+            message: "Playlist was deleted successfully!"
+          });
+        }
+      })
+      .catch(err => {
+        res.status(500).send({
+          message: "Could not delete Playlist with id=" + id
         });
       });
   };

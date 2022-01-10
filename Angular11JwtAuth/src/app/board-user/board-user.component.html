@@ -1,5 +1,5 @@
-<h3>Bienvenue dans l'outil de création de playlist !</h3>
 
+<!-- 
 <div style="width: 400px; margin: auto;">
     <div class="submit-form">
         <div class="form-group">
@@ -12,13 +12,13 @@
             [(ngModel)]="playlist.name"
             name="name"
           />
-        </div>
+        </div> 
+      
   
         <button (click)="onClick()" class="btn btn-success">Créer ma playlist</button>
     </div>
 </div>
 
-<button (click)="showPlaylists()" class="btn btn-secondary btn-lg">Afficher mes playlists</button>
 
   <div class="card-deck">
     <div class="card" *ngFor="let playlist of MyPlaylists">
@@ -29,4 +29,116 @@
         <p class="card-text"><small class="text-muted">Last updated {{ playlist.updated}}</small></p>
       </div>
     </div>
-</div>
+  </div>
+-->
+
+  <div class="album py-5 bg-light">
+    <h3>Bienvenue dans l'outil de gestion de playlist !</h3>
+    <div class="container">
+
+      <div class="row">
+        <div class="col-md-4" *ngFor="let playlist of MyPlaylists">
+          <div class="card mb-4 shadow-sm">
+            <img src="{{playlist.playlist_url}}" height="250px" weight="100%" class="card-img-top" alt="vous n'avez pas d'image, ajoutez en une maintenant via le bouton edit !">
+            <div class="card-body">
+              <h5 class="card-title">{{ playlist.name }}</h5>
+              <p class="card-text">Votre playlist sur-mesure.</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                  <button type="button" (click)="open(view)" class="btn btn-sm btn-outline-secondary">View</button>
+                  <ng-template #view let-modal>
+                    <div class="modal-header">
+                    <h4 class="modal-title" id="modal-basic-title">Vos vidéos</h4>
+                    
+                    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+                    <div class="modal-body" *ngFor="let video of playlist.video_list">
+                      <ul class="list-group">
+                        <li class="list-group-item">{{video.titre}}</li>
+                        </ul>
+                    </div>
+                    <div class="modal-body" *ngIf="playlist.video_list == 0" >
+                      <p>Vous n'avez pas encore de vidéos... </p>
+                    </div>
+                    
+                  </ng-template>
+
+                  <button type="button" (click)="open(edit)" class="btn btn-sm btn-outline-secondary">Edit</button>
+                    <ng-template #edit let-modal>
+                      <div class="modal-header">
+                      <h4 class="modal-title" id="modal-basic-title">Edit your video here</h4>
+                      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                          <span aria-hidden="true">&times;</span>
+                      </button>
+                      </div>
+                      <div class="modal-body">
+                          <div class="list-group">
+                              <button type="button" class="list-group-item list-group-item-action" (click)="open(playlistNameModal);modal.dismiss('Cross click')">Changer le nom</button>
+
+                              <ng-template #playlistNameModal let-modal>
+                                <div class="modal-header">
+                                <h4 class="modal-title" id="modal-basic-title">Choissisez un nouveau nom</h4>
+                                <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                </div>
+                                <div class="modal-body">
+                                  <div class="input-group mb-3 mt-0">
+                                    <input type="text" [(ngModel)]="newName" class="form-control" placeholder="nom" (keydown.enter)="updateName(playlist._id,newName);modal.dismiss('Cross click')">
+                                  </div>                            
+                                </div>
+                              </ng-template>
+
+                              <button type="button" class="list-group-item list-group-item-action" (click)="open(playlistImageModal);modal.dismiss('Cross click')">Changer le lien d'image</button>
+
+                              <ng-template #playlistImageModal let-modal>
+                                <div class="modal-header">
+                                <h4 class="modal-title" id="modal-basic-title">Choississez un nouveau lien d'image</h4>
+                                <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                </div>
+                                <div class="modal-body">
+                                  <div class="input-group mb-3 mt-0">
+                                    <input type="text" [(ngModel)]="newUrl" class="form-control" placeholder="URL d'image" (keydown.enter)="updateImage(playlist._id,newUrl);modal.dismiss('Cross click')">
+                                  </div>                            
+                                </div>
+                              </ng-template>
+                          </div>
+                      </div>
+                  </ng-template>
+                  <button type="button" (click)="open(deletePlaylist)" class="btn btn-sm btn-outline-danger">Delete</button>
+
+                  <ng-template #deletePlaylist let-modal>
+                    <div class="modal-header">
+                    <h4 class="modal-title" id="modal-basic-title">Etes-vous sûr de vouloir supprimer cette playlist ?</h4>
+                    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="input-group mx-auto">
+                        <button type="button" class="btn btn-sm btn-outline-success ml-2 mr-2" (click)="supprimerPlaylist(playlist._id);modal.dismiss('Cross click');open(SupprimerSuccess)"> Oui </button>
+                        <ng-template #SupprimerSuccess let-modal>
+                          <div class="modal-header">
+                          <h4 class="modal-title" id="modal-basic-title">Votre playlist a été supprimé avec succès</h4>
+                          <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                              <span aria-hidden="true">&times;</span>
+                          </button>
+                          </div>
+                        </ng-template>
+                        <button type="button" class="btn btn-sm btn-outline-danger ml-2 mr-2" (click)="modal.dismiss('Cross click')"> Annuler </button>
+                      </div>                            
+                    </div>
+                  </ng-template>
+                </div>
+                <small class="text-muted">{{ playlist.updated}}</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -45,4 +45,16 @@ export class PlaylistService {
     return this.http.post(baseUrl + "/getAllVideoFromPlaylist", data);
   }
 
+  updateName(data: any): Observable<any> {
+    return this.http.post(baseUrl + "/updateName", data);
+  }
+
+  updateImage(data: any): Observable<any> {
+    return this.http.post(baseUrl + "/updateImage", data);
+  }
+
+  // Supprime une playlist
+  deletePlaylist(data: any): Observable<any> {
+    return this.http.post(baseUrl + "/deletePlaylist", data);
+  }
 }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../_services/user.service';
 import { PlaylistService } from '../_services/playlist.service';
 import { TokenStorageService } from '../_services/token-storage.service';
+import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-board-user',
@@ -12,6 +13,8 @@ export class BoardUserComponent implements OnInit {
   content?: string;
   currentUser: any;
   errorMessage = '';
+  newName: string ="";
+  newUrl: string ="";
 
   MyPlaylists : any;
 
@@ -19,7 +22,10 @@ export class BoardUserComponent implements OnInit {
     name: ''
   };
 
-  constructor(private userService: UserService, private playlistService: PlaylistService, private token: TokenStorageService) { }
+  closeResult: string = "";
+
+
+  constructor(private userService: UserService, private playlistService: PlaylistService, private token: TokenStorageService,private modalService: NgbModal) { }
 
   ngOnInit(): void {
     //this.showPlaylists();
@@ -32,6 +38,24 @@ export class BoardUserComponent implements OnInit {
         this.content = JSON.parse(err.error).message;
       }
     );
+
+      // Recupere toute les playlist a l'init
+    this.currentUser = this.token.getUser();
+    const data = {
+      createdBy: this.currentUser.username,
+    };
+
+    // console.log(data)
+    this.playlistService.findByUsername(data).subscribe(
+      data => {
+        this.MyPlaylists = data;
+        console.log(data);
+      },
+      err => {
+        this.errorMessage = err.error.message;
+      }
+    );
+    
   }
 
   onClick(): void{
@@ -52,6 +76,21 @@ export class BoardUserComponent implements OnInit {
       }
     );
 
+  }
+
+  supprimerPlaylist(idPlaylist:String): void{
+
+    const data = {
+      idPlaylist: idPlaylist,
+    };
+
+    this.playlistService.deletePlaylist(data).subscribe(
+      data => {
+        console.log(data);
+      },
+      err => {
+        this.errorMessage = err.error.message;
+      });
   }
 
   showPlaylists(): void{
@@ -75,4 +114,74 @@ export class BoardUserComponent implements OnInit {
 
   }
 
+  updateName(idPlaylist:String, newName:String){
+
+    const data = {
+      idPlaylist: idPlaylist,
+      newName: newName
+    };
+
+    this.playlistService.updateName(data).subscribe(
+      data => {
+        console.log(data);
+      },
+      err => {
+        this.errorMessage = err.error.message;
+      }
+    );
+
+  }
+
+  updateImage(idPlaylist:String, newUrl:String){
+
+    const data = {
+      idPlaylist: idPlaylist,
+      newUrl: newUrl
+    };
+
+    this.playlistService.updateImage(data).subscribe(
+      data => {
+        console.log(data);
+      },
+      err => {
+        this.errorMessage = err.error.message;
+      }
+    );
+  }
+
+
+
+  open(content:any) {
+
+    const data = {
+      createdBy: this.currentUser.username,
+    };
+
+    // console.log(data)
+    this.playlistService.findByUsername(data).subscribe(
+      data => {
+        console.log(data);
+        this.MyPlaylists = data;
+      },
+      err => {
+        this.errorMessage = err.error.message;
+      }
+    );
+
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+  
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
 }
