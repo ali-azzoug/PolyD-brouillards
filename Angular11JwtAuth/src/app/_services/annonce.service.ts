@@ -31,8 +31,8 @@ Il faut donner en entrée :
   }
 
   // Retourne une annonce de la liste
-  getAnnonce(data: any): Observable<any> {
-    return this.http.post(baseUrl + 'getAnnonce' ,data);
+  getAnnonce(): Observable<any> {
+    return this.http.get(baseUrl + 'getAnnonce');
   }
 
 }

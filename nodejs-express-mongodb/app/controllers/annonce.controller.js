@@ -8,7 +8,7 @@ const Annonce = db.annonces;
 exports.create = (req, res) => {
   
     // Validate request
-  if (!req.body.nom_campagne || !req.body.budget || !req.body.categorie_ciblage) {
+  if (!req.body.nom_campagne || !req.body.budget || !req.body.categorie_ciblage || !req.body.titre_annonce) {
     res.status(400).send({ message: "Content can not be empty!" });
     return;
   }

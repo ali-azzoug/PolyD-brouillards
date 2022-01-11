@@ -73,7 +73,7 @@ export class BoardAnnonceurComponent implements OnInit {
       budget: this.budget,
       Zone_geo: this.zone,
       categorie_ciblage: this.targetCategory,
-      image_annonce: this.imageAnnonce,
+      Image_annonce: this.imageAnnonce,
       titre_annonce: this.titreAnnonce,
       description_annonce: this.descriptionAnnonce,
       URL_annonce: this.urlWebsite,
