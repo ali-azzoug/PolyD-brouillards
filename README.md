@@ -4,7 +4,7 @@
 
 
 <!-- TABLE OF CONTENTS -->
-
+  <details>
   <summary>Table of Contents</summary>
   <ol>
     <li>
@@ -23,7 +23,7 @@
     </li>
     <li><a href="#usage">Usage</a></li>
   </ol>
-
+ </details>
 
 
 <!-- ABOUT THE PROJECT -->
