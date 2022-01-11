@@ -65,7 +65,7 @@ Il vous faut tout d'abord la dernière version de npm que vous pouvez installer 
 
 ### Installation
 
-1. Se mettre dans le dossier souhaité sur son pc et ouvrir un terminal disposant des commandes git dans ce répertoire.
+1. Se mettre dans le dossier souhaité sur son pc et ouvrir un terminal disposant des commandes git.
 2. Cloner le projet avec la commande : 
    ```sh
    git clone https://github.com/ali-azzoug/PolyD-brouillards.git
