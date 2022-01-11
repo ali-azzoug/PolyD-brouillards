@@ -57,7 +57,7 @@ Vous trouverez ci-dessous les instructions nécessaire à l'installation du proj
 
 ### Prerequisites
 
-Il vous faut tout t'abord la dernière version de npm que vous pouvez installer avec la commande ci-dessous
+Il vous faut tout d'abord la dernière version de npm que vous pouvez installer avec la commande ci-dessous
 * npm
   ```sh
   npm install npm@latest -g
