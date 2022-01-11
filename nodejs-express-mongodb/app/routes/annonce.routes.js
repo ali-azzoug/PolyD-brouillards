@@ -7,7 +7,7 @@ module.exports = app => {
     router.post("/", annonces.create);
   
     // Retrieve a random annonce 
-    router.post("/getAnnonce", annonces.getRandomAnnonce);
+    router.get("/getAnnonce", annonces.getRandomAnnonce);
 
     app.use('/api/annonces', router);
   };

@@ -41,6 +41,8 @@ export class HomeComponent implements OnInit {
   currentVideoDescription: string | undefined;
 
   MyPlaylists : any;
+  MyAnnonce : any;
+
   currentPlaylistName: string="";
   currentPlaylistId: string="";
   // currentPlaylist: Array<{videoId: string, title:string, description:string}> = []
@@ -72,7 +74,7 @@ export class HomeComponent implements OnInit {
 
     this.listeVideos = this.youtubeData.items;
     this.isLoggedIn = !!this.tokenStorageService.getToken();
-    this.annonceService.getAnnonce("").subscribe(
+    this.annonceService.getAnnonce().subscribe(
       data => {
         console.log(data[0].budget);
       },
@@ -96,6 +98,17 @@ export class HomeComponent implements OnInit {
            }
           });
     }
+
+    this.annonceService.getAnnonce().subscribe(
+      data => {
+        console.log(data);
+        this.MyAnnonce = data;
+        console.log(this.MyAnnonce)
+      },
+      err => {
+        this.errorMessage = err.error.message;
+      }
+    );
 
   }
 
